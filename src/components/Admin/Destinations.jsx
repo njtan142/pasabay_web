@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { collection, query, where, getDocs, doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
-import { firestore } from '../firebase';
+import { firestore } from '../../firebase';
 import { useState, useEffect, useRef } from 'react';
+import { ref, uploadString, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../firebase';
+
 
 export default function Destinations() {
 
@@ -11,16 +14,19 @@ export default function Destinations() {
     const [selectedCategory, setSelectedCategory] = useState("cultural");
     const [editing, setEditing] = useState(false);
     const [selectedDestination, setSelectedDestination] = useState();
-
+    
     const selectionRef = useRef();
-
-
+    
+    
     const category = useRef();
     const name = useRef();
     const location = useRef();
     const description = useRef();
     const latitude = useRef();
     const longitude = useRef();
+    const imageRef = useRef();
+    const [image, setImage] = useState()
+
 
 
     const postLocation = async (e) => {
@@ -51,7 +57,6 @@ export default function Destinations() {
         }
         const categoryRef = collection(docRef, 'destinations')
         const destinationRef = doc(categoryRef,)
-        console.log(docRef);
 
 
         const attractions = {
@@ -63,12 +68,11 @@ export default function Destinations() {
         }
 
         const result = await setDoc(destinationRef, attractions).then(() => {
-            window.location.reload();
+            uploadProfile();
         });
 
 
 
-        console.log(attractions, result);
     }
 
 
@@ -81,7 +85,6 @@ export default function Destinations() {
             querySnapshot.forEach((doc) => {
                 cl.push(doc);
             });
-            console.log(cl);
             setDestinations(cl);
         }
         getDoc(selectedCategory)
@@ -100,6 +103,11 @@ export default function Destinations() {
             description.current.value = destination.description
             latitude.current.value = destination.latitude
             longitude.current.value = destination.longitude
+
+            const profileRef = ref(storage, category.current.value + " - " + name.current.value)
+            getDownloadURL(profileRef).then((url) => {
+                setImage(url);
+            });
         }
         const toRender = [];
         destinations.forEach((doc) => {
@@ -117,12 +125,10 @@ export default function Destinations() {
 
     function updateLocation(e) {
         e.preventDefault();
-        console.log('location updated')
 
         const destinationRef = doc(collection(doc(collection(firestore, 'LocationsData'), category.current.value), 'destinations'), selectedDestination.id)
 
         getDoc(destinationRef).then((destination) => {
-            console.log(destination.data())
         })
 
         setDoc(destinationRef, {
@@ -132,14 +138,14 @@ export default function Destinations() {
             latitude: latitude.current.value,
             longitude: longitude.current.value
         }).then(() => {
-            window.location.reload();
+            uploadProfile();
         })
 
-        name.current.value = ""
-        location.current.value = ""
-        description.current.value = ""
-        latitude.current.value = ""
-        longitude.current.value = ""
+        // name.current.value = ""
+        // location.current.value = ""
+        // description.current.value = ""
+        // latitude.current.value = ""
+        // longitude.current.value = ""
 
     }
     function deleteLocation() {
@@ -148,6 +154,32 @@ export default function Destinations() {
         deleteDoc(destinationRef).then(() => {
             window.location.reload();
         })
+    }
+
+    function fileToDataUri(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                resolve(event.target.result);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function showImage(e) {
+        const profileURI = fileToDataUri(e.target.files[0])
+        profileURI.then((data) => {
+            setImage(data);
+        })
+    }
+
+    function uploadProfile() {
+        // setLoading(true);
+        if (image == null) return;
+        const profileRef = ref(storage, category.current.value + " - " + name.current.value)
+        uploadString(profileRef, image, 'data_url').then(() => {
+            window.location.reload();
+        });
     }
 
     return (
@@ -165,7 +197,6 @@ export default function Destinations() {
                     {
                         destinationsToRender ? destinationsToRender : null
                     }
-                    {console.log(destinationsToRender)}
                 </div>
 
             </Explore>
@@ -181,7 +212,6 @@ export default function Destinations() {
 
                         </select>
                     </Input>
-
                     <Input>
                         <Label>Name</Label>
                         <input type="text" ref={name} required />
@@ -198,6 +228,11 @@ export default function Destinations() {
                         <Label>Location</Label>
                         <input type="text" placeholder='latitude' ref={latitude} required />
                         <input type="text" placeholder='longitude' ref={longitude} required />
+                    </Input>
+                    <Input>
+                        <Label>Picture</Label>
+                        {image && <img src={image}></img>}
+                        <input ref={imageRef} type="file" accept='image/*' onChange={showImage} />
                     </Input>
                     {
                         !editing ? <Submit type="submit" value="Submit"></Submit> : <Submit type="submit" value="Update"></Submit>
@@ -249,11 +284,22 @@ const Add = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow-y: scroll;
+    padding-top: 1em;
 
     &>button{
         width: 50%;
         margin-top: 1em;
         padding: 0.5em 0em;
+    }
+
+    img{
+        width: 200px;
+        display: block;
+        margin: 0 auto;
+        border: 1px solid #13c2e0;
+        padding: 5px;
+        border-radius: 5px;
     }
 `;
 
@@ -272,6 +318,7 @@ const FormGroup = styled.form`
   flex-direction: column;
   width: 500px;
   font-size: 1.2em;
+  transform: scale(90%);
 `;
 
 const Input = styled.div`

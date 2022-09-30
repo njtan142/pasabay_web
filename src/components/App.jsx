@@ -2,9 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContext";
 import Destination from "../Destination";
-import Users from "./Admin/Home";
+import Users from "./Admin/Users";
 import Home from "./Home";
-import Destinations from "./Destinations";
+import Destinations from "./Admin/Destinations";
+import Locations from "./Admin/Locations";
 
 
 
@@ -18,6 +19,7 @@ const App = (props) => {
                         <Route exact path="/destination" element={<Destination />} />
                         <Route exact path="/users" element={<Users />} />
                         <Route exact path="/destinations" element={<Destinations />} />
+                        <Route exact path="/locations" element={<Locations />} />
                     </Routes>
                 </AuthProvider>
             </Router>

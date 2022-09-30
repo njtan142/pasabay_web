@@ -23,14 +23,12 @@ const Home = (props) => {
     }
 
     useEffect(() => {
-        console.log(getUsers())
         let usersArr = [];
         getUsers().then(users => {
             users.forEach((doc) => {
                 usersArr.push(doc.data())
             })
         }).then(()=>{
-        console.log(usersArr)
         setUserList(usersArr)
         })
     }, []);
@@ -45,7 +43,6 @@ const Home = (props) => {
 
             <UserList>
                 {renderedUsers}
-                {console.log(renderedUsers)}
             </UserList>
 
         </Container>

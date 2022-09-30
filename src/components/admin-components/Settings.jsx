@@ -12,12 +12,11 @@ export default function Settings() {
         <Card>
           <CardTitle>Actions</CardTitle>
           <CardFunctions>
-            <CardFunction>Manage users</CardFunction>
+            <CardFunction onClick={()=>{window.location = "/users"}}>Manage users</CardFunction>
             <CardFunction onClick={()=>{window.location = "/destinations"}}>Manage destinations</CardFunction>
-
+            <CardFunction onClick={()=>{window.location = "/locations"}}>Manage locations</CardFunction>
           </CardFunctions>
         </Card>
-        
       </ContentContainer>
     </Container>
   )
@@ -47,7 +46,7 @@ const Description = styled.p`
 `;
 
 const ContentContainer = styled.div`
-  padding-top: 10em;
+  padding-top: 5em;
   display: flex;
   justify-content: space-evenly;
 `;

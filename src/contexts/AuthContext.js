@@ -35,7 +35,7 @@ export function AuthProvider({ children }) {
     }
 
     async function getUsers(){
-        const userList =  getDocs(collection(firestore, 'Users'));
+        const userList =  getDocs(collection(firestore, 'users'));
         return userList
     }
 

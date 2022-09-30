@@ -41,7 +41,6 @@ function Destination() {
     }
     const categoryRef = collection(docRef, 'destinations')
     const destinationRef = doc(categoryRef, )
-    console.log(docRef);
 
 
     const attractions = {
@@ -58,7 +57,6 @@ function Destination() {
 
 
 
-    console.log(attractions,result);
   }
 
 
