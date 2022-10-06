@@ -3,9 +3,8 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
 import styled from 'styled-components';
-import AdtourLogo from '../adtour_logo.svg';
 import Overview from './admin-components/Overview';
-import Reports from './admin-components/Reports';
+import KYC from './admin-components/KYC';
 import Messages from './admin-components/Messages';
 import Settings from './admin-components/Settings';
 import Help from './admin-components/Help';
@@ -37,8 +36,8 @@ export default function Home() {
       case 'Overview':
         setContentRender(<Overview></Overview>);
         break;
-      case 'Reports':
-        setContentRender(<Reports></Reports>);
+      case 'Verify KYC':
+        setContentRender(<KYC></KYC>);
         break;
       case 'Messages':
         setContentRender(<Messages></Messages>);
@@ -57,9 +56,9 @@ export default function Home() {
   return (
     <Container>
       <NavigationContainer>
-        <Logo src={AdtourLogo}></Logo>
+        <h1>Pasabay</h1>
         <Navigation ref={overViewRef} onClick={() => selectNavigation(overViewRef)}>Overview</Navigation>
-        <Navigation ref={reportsRef} onClick={() => selectNavigation(reportsRef)}>Reports</Navigation>
+        <Navigation ref={reportsRef} onClick={() => selectNavigation(reportsRef)}>Verify KYC</Navigation>
         <Navigation ref={messagesRef} onClick={() => selectNavigation(messagesRef)}>Messages</Navigation>
         <Navigation ref={settingsRef} onClick={() => selectNavigation(settingsRef)}>Settings</Navigation>
         <Navigation ref={helpRef} onClick={() => selectNavigation(helpRef)}>Help</Navigation>

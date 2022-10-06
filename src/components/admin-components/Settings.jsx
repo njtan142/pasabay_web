@@ -13,8 +13,8 @@ export default function Settings() {
           <CardTitle>Actions</CardTitle>
           <CardFunctions>
             <CardFunction onClick={()=>{window.location = "/users"}}>Manage users</CardFunction>
-            <CardFunction onClick={()=>{window.location = "/destinations"}}>Manage destinations</CardFunction>
-            <CardFunction onClick={()=>{window.location = "/locations"}}>Manage locations</CardFunction>
+            {/* <CardFunction onClick={()=>{window.location = "/destinations"}}>Manage destinations</CardFunction> */}
+            {/* <CardFunction onClick={()=>{window.location = "/locations"}}>Manage locations</CardFunction> */}
           </CardFunctions>
         </Card>
       </ContentContainer>

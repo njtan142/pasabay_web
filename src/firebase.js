@@ -6,15 +6,15 @@ import { getStorage } from "firebase/storage";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDYixkUXsYLXJKl3N5iuIKxd0K2qKK5CZg",
-  authDomain: "thesis-app-52392.firebaseapp.com",
-  databaseURL: "https://thesis-app-52392-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "thesis-app-52392",
-  storageBucket: "thesis-app-52392.appspot.com",
-  messagingSenderId: "591034588388",
-  appId: "1:591034588388:web:e22460bbeedaa6b26720f1",
-  measurementId: "G-6J6638L05F"
+  apiKey: "AIzaSyDPpwFNyCfK9TodrFDH8h_R20BN-ZGdM94",
+  authDomain: "taralets-a3e29.firebaseapp.com",
+  projectId: "taralets-a3e29",
+  storageBucket: "taralets-a3e29.appspot.com",
+  messagingSenderId: "106017804455",
+  appId: "1:106017804455:web:71acfd5c81d092d769cb82",
+  measurementId: "G-TP1FHNHPNV"
 };
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
